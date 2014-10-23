@@ -36,7 +36,7 @@
         width = context.canvas.width;
         height = context.canvas.height;
         image = context.createImageData(width, height);
-        imageData = [];
+		imageData = image.data;
 
         for (y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
@@ -50,7 +50,6 @@
             }
         }
 
-        image.data = imageData;
         context.putImageData(image, 0, 0);
     };
 
