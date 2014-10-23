@@ -1,4 +1,4 @@
-(function() {
+(function(global) {
     'use strict';
 
     var cells, context, frameRequest, height, width;
@@ -7,7 +7,7 @@
 
         var x, y;
 
-        if (this === window) {
+        if (this === global) {
             return new CellularAutomata(canvas);
         }
 
@@ -30,15 +30,28 @@
     }
 
     CellularAutomata.prototype.paintToCanvas = function() {
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-        context.fillStyle = 'white';
-        for (var y = 0; y < height; y++) {
-            for (var x = 0; x < width; x++) {
-                if (cells[y][x] === 1) {
-                    context.fillRect(x, y, 1, 1);
+
+        var x, y, image, imageData, i, width, height;
+
+        width = context.canvas.width;
+        height = context.canvas.height;
+        image = context.createImageData(width, height);
+        imageData = [];
+
+        for (y = 0; y < height; y++) {
+            for (x = 0; x < width; x++) {
+                i = 4 * (y * width + x);
+                if (cells[y][x] == 1) {
+                    imageData[i + 0] = 255;
+                    imageData[i + 1] = 255;
+                    imageData[i + 2] = 255;
+                    imageData[i + 3] = 255;
                 }
             }
         }
+
+        image.data = imageData;
+        context.putImageData(image, 0, 0);
     };
 
     CellularAutomata.prototype.checkCell = function(x, y) {
@@ -97,7 +110,7 @@
         var canvas = document.querySelector('canvas');
         canvas.width = innerWidth;
         canvas.height = innerHeight;
-        window.ca = new CellularAutomata(canvas);
+        global.ca = new CellularAutomata(canvas);
     }, false);
 
-}());
+}(window));
