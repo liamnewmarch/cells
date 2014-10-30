@@ -41,7 +41,7 @@
         for (y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
                 i = 4 * (y * width + x);
-                if (cells[y][x] == 1) {
+                if (cells[y][x]) {
                     imageData[i + 0] = 255;
                     imageData[i + 1] = 255;
                     imageData[i + 2] = 255;
@@ -57,7 +57,7 @@
         if (x < 0 || y < 0 || y > cells.length - 1 || x > cells[y].length - 1) {
             return 0;
         }
-        return cells[y][x];
+        return cells[y][x] ? 1 : 0;
     };
 
     CellularAutomata.prototype.iterate = function() {
@@ -83,10 +83,10 @@
                 sum += this.checkCell(x, y + 1);
                 sum += this.checkCell(x + 1, y + 1);
 
-                if (cells[y][x] === 1) {
-                    nextCells[y][x] = sum < 2 || sum > 3 ? 0 : 1;
+                if (cells[y][x]) {
+                    nextCells[y][x] = sum >= 2 && sum <= 3;
                 } else {
-                    nextCells[y][x] = sum === 3 ? 1 : 0;
+                    nextCells[y][x] = sum === 3;
                 }
             }
         }
@@ -99,7 +99,7 @@
         var i = 0;
         for (var y = 0; y < height; y++) {
             for (var x = 0; x < width; x++) {
-                cells[y][x] = !Math.floor(20 * Math.random()) ? 1 : 0;
+                cells[y][x] = Math.floor(20 * Math.random()) === 0;
             }
         }
         this.paintToCanvas();
@@ -113,3 +113,21 @@
     }, false);
 
 }(window));
+
+var domready = new Promise(function(resolve, reject) {
+    var now = new Date();
+    if (document.readyState === 'complete') {
+        resolve(now);
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            resolve(now);
+        }, false);
+    }
+});
+
+domready.then(function() {
+    var canvas = document.querySelector('canvas');
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    global.ca = new CellularAutomata(canvas);
+});
