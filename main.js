@@ -113,21 +113,3 @@
     }, false);
 
 }(window));
-
-var domready = new Promise(function(resolve, reject) {
-    var now = new Date();
-    if (document.readyState === 'complete') {
-        resolve(now);
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            resolve(now);
-        }, false);
-    }
-});
-
-domready.then(function() {
-    var canvas = document.querySelector('canvas');
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-    global.ca = new CellularAutomata(canvas);
-});
