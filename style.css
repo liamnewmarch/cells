@@ -7,7 +7,11 @@ body {
   margin: 0;
 }
 
-canvas {
+cellular-automata {
+  display: block;
+}
+
+cellular-automata canvas {
   height: 100vh;
   image-rendering: pixelated;
   width: 100vw;

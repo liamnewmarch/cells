@@ -1,11 +1,22 @@
-class CellularAutomata extends EventTarget {
-  constructor({ canvas, scale = 4 } = {}) {
+customElements.define('cellular-automata', class extends HTMLElement {
+  constructor() {
     super();
-    Object.assign(this, { canvas, scale });
-    this.context = canvas.getContext('2d');
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
+    this.onresize = this.reset.bind(this);
     this.paused = true;
+    this.scale = 4;
+  }
+
+  connectedCallback() {
+    addEventListener('resize', this.onresize, { passive: true });
+    this.append(this.canvas);
     this.start();
-    addEventListener('resize', () => this.reset());
+  }
+
+  disconnectedCallback() {
+    removeEventListener('resize', this.onresize, { passive: true });
+    this.innerHTML = '';
   }
 
   cellAlive(x, y) {
@@ -85,10 +96,4 @@ class CellularAutomata extends EventTarget {
     this.reset();
     requestAnimationFrame(() => this.iterate());
   }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  new CellularAutomata({
-    canvas: document.querySelector('canvas'),
-  });
 });
