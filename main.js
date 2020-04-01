@@ -4,17 +4,20 @@ customElements.define('cellular-automata', class extends HTMLElement {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.onresize = this.reset.bind(this);
+    this.onvisibilitychange = this.visibilitychange.bind(this);
     this.paused = true;
     this.scale = 4;
   }
 
   connectedCallback() {
+    document.addEventListener('visibilitychange', this.onvisibilitychange, { passive: true });
     addEventListener('resize', this.onresize, { passive: true });
     this.append(this.canvas);
     this.start();
   }
 
   disconnectedCallback() {
+    document.removeEventListener('visibilitychange', this.onvisibilitychange, { passive: true });
     removeEventListener('resize', this.onresize, { passive: true });
     this.innerHTML = '';
   }
@@ -95,5 +98,9 @@ customElements.define('cellular-automata', class extends HTMLElement {
     this.paused = false;
     this.reset();
     requestAnimationFrame(() => this.iterate());
+  }
+
+  visibilitychange() {
+    this.paused = document.hidden;
   }
 });
