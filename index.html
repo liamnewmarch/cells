@@ -8,6 +8,37 @@
     <script defer src="main.js"></script>
   </head>
   <body>
-    <cellular-automata></cellular-automata>
+    <div class="gb">
+      <header class="gb-branding">
+        <h1 class="gb-branding-name">Game of Life</h1>
+        <a class="gb-branding-link" href="https://liam.nwmr.ch">Newmarch</a>
+      </header>
+      <main class="gb-display-cover">
+        <div class="gb-dot-matrix"></div>
+        <cellular-automata class="gb-display"></cellular-automata>
+      </main>
+      <div class="gb-controls">
+        <div class="gb-d-pad">
+          <button class="gb-top-button"></button>
+          <button class="gb-right-button"></button>
+          <button class="gb-bottom-button"></button>
+          <button class="gb-left-button"></button>
+        </div>
+        <div class="gb-a-b-buttons">
+          <button class="gb-b-button"></button>
+          <label class="gb-b-button-label">B</label>
+          <button class="gb-a-button"></button>
+          <label class="gb-b-button-label">A</label>
+        </div>
+        <div class="gb-select-start-buttons">
+          <button class="gb-select-button"></button>
+          <label class="gb-select-button-label">Select</label>
+          <button class="gb-start-button"></button>
+          <label class="gb-start-button-label">Start</label>
+        </div>
+        <div class="gb-phones"></div>
+        <div class="gb-speaker-grille"></div>
+      </div>
+    </div>
   </body>
 </html>

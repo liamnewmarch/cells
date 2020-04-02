@@ -6,7 +6,8 @@ customElements.define('cellular-automata', class extends HTMLElement {
     this.onresize = this.reset.bind(this);
     this.onvisibilitychange = this.visibilitychange.bind(this);
     this.paused = true;
-    this.scale = 4;
+    this.height = 144;
+    this.width = 160;
   }
 
   connectedCallback() {
@@ -72,7 +73,10 @@ customElements.define('cellular-automata', class extends HTMLElement {
       for (let x = 0; x < this.width; x++) {
         const i = 4 * (y * this.width + x);
         if (this.cells[y][x]) {
-          data[i + 0] = data[i + 1] = data[i + 2] = data[i + 3] = 255;
+          data[i + 0] = 51;
+          data[i + 1] = 51;
+          data[i + 2] = 0;
+          data[i + 3] = 255;
         }
       }
     }
@@ -81,8 +85,8 @@ customElements.define('cellular-automata', class extends HTMLElement {
 
   reset() {
     this.cells = [];
-    this.width = this.context.canvas.width = Math.ceil(window.innerWidth / this.scale);
-    this.height = this.context.canvas.height = Math.ceil(window.innerHeight / this.scale);
+    this.context.canvas.width = this.width;
+    this.context.canvas.height = this.height;
 
     for (var y = 0; y < this.height; y++) {
       this.cells[y] = [];
